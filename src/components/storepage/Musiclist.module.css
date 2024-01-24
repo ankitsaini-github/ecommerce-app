@@ -1,0 +1,10 @@
+.imgwrapper{
+  overflow:hidden;
+ 
+}
+.hoverzoom{
+  transition: ease-in 0.5s;
+}
+.hoverzoom:hover {
+  transform: scale(1.5);
+}
