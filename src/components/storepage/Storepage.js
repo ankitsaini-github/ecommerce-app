@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import { Outlet } from 'react-router-dom';
 import Topbar from '../navbar/Topbar'
 import Cart from "../cart/Cart";
-import Musiclist from "./Musiclist";
 import Bottombar from "./Bottombar";
 import Banner from "./Banner";
 import ContextProvider from '../store/ContextProvider';
@@ -18,11 +18,14 @@ function Storepage() {
   const hidecarthandler=()=>{
     setshowcart(false)
   }
-  return (<ContextProvider>
+  return (
+    <ContextProvider>
       <Topbar onCartclick={showcarthandler}/>
       {showcart && <Cart onClose={hidecarthandler}/>}
       <Banner />
-      <Musiclist onCartclick={showcarthandler}/>
+      <Outlet/>
+      {/* {menuid==='about' && <About/>}
+      {menuid==='store' && <Musiclist onCartclick={showcarthandler}/>} */}
       <Bottombar />
   </ContextProvider>
   )
