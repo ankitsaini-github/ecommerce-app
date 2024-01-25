@@ -1,0 +1,11 @@
+.nav a{
+  color:white;
+  text-decoration: none;
+}
+.nav a:hover{
+  color:#0DCAF0;
+}
+.nav a.active{
+  color: #0DCAF0;
+  font-weight: bold;
+}

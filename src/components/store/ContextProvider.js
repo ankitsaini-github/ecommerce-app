@@ -39,7 +39,6 @@ function ContextProvider(props) {
     Cartlist:cartitems,
     Carttotalamount:carttotal,
     cartcount:cartcount,
-    cartbtn:false,
     addtocart:addtocarthandler,
     removefromcart:removefromcarthandler,
   }

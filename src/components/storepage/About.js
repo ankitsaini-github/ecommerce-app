@@ -8,7 +8,7 @@ function About() {
         className="fw-bolder fs-1 my-4 p-4"
         style={{ fontFamily: "times-new-roman" }}
       >
-        About
+        ABOUT
       </div>
       <div className='w-75 justify-content-center m-auto'>
       <Image src='https://prasadyash2411.github.io/ecom-website/img/Band%20Members.png' roundedCircle  width="200px" style={{float:'left',margin:'20px 40px 20px 20px'}}/>

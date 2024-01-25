@@ -23,9 +23,7 @@ function Storepage() {
       <Topbar onCartclick={showcarthandler}/>
       {showcart && <Cart onClose={hidecarthandler}/>}
       <Banner />
-      <Outlet/>
-      {/* {menuid==='about' && <About/>}
-      {menuid==='store' && <Musiclist onCartclick={showcarthandler}/>} */}
+      <Outlet context={[showcarthandler]}/>
       <Bottombar />
   </ContextProvider>
   )

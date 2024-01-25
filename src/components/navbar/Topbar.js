@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import CartContext from "../store/store-context";
 import { NavLink } from "react-router-dom";
+import classes from './Topbar.module.css'
 
 function Topbar(props) {
   const ctx=useContext(CartContext)
@@ -18,15 +19,15 @@ function Topbar(props) {
         className="justify-content-center p-1 bg-dark d-flex text-white w-auto border-bottom border-info fs-4 fixed-top z-index-2"
         variant="dark"
       >
-        <Nav>
+        <Nav className={classes.nav}>
           <Nav.Item className="mx-4">
-            <NavLink to="/" onClick={hidecartbtn}>Home</NavLink>
+            <NavLink to="/" onClick={hidecartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>Home</NavLink>
           </Nav.Item>
           <Nav.Item className="mx-4">
-            <NavLink to="/store" onClick={showcartbtn}>Store</NavLink>
+            <NavLink to="/store" onClick={showcartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>Store</NavLink>
           </Nav.Item>
           <Nav.Item className="mx-4">
-            <NavLink to="/about" onClick={hidecartbtn}>About</NavLink>
+            <NavLink to="/about" onClick={hidecartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>About</NavLink>
           </Nav.Item>
         </Nav>
         <span style={{ color: "cyan", position: "absolute", right: "2%" }}>

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import CartContext from "../store/store-context";
 import classes from './Musiclist.module.css'
+import { useOutletContext } from "react-router-dom";
 
 const products = [
   {
@@ -43,6 +44,7 @@ const products = [
 
 function Musiclist(props) {
   const ctx = useContext(CartContext);
+  const [showcarthandler]=useOutletContext();
   const additemhandler = (p) => {
     // const olditem=ctx.Cartlist.filter((i)=>i.id===p.id)
     const newitem = {
@@ -85,12 +87,12 @@ function Musiclist(props) {
         className="fw-bolder fs-1 my-4 p-4"
         style={{ fontFamily: "times-new-roman" }}
       >
-        Music
+        MUSIC
       </div>
       <div className="my-4 justify-content-center d-flex p-4 container">
         {displaycards()}
       </div>
-      <Button variant="secondary" onClick={props.onCartclick}>See the Cart</Button>
+      <Button variant="secondary" onClick={showcarthandler}>See the Cart</Button>
     </>
   );
 }
