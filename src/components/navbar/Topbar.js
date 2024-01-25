@@ -1,10 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import CartContext from "../store/store-context";
 import { NavLink } from "react-router-dom";
 
 function Topbar(props) {
   const ctx=useContext(CartContext)
+  const [cartbtn,setcartbtn]=useState('')
+  const showcartbtn=()=>{
+    setcartbtn('')
+  }
+  const hidecartbtn=()=>{
+    setcartbtn('d-none')
+  }
   return (
     <>
       <Navbar
@@ -13,17 +20,17 @@ function Topbar(props) {
       >
         <Nav>
           <Nav.Item className="mx-4">
-            <NavLink to="/" id='home'>Home</NavLink>
+            <NavLink to="/" onClick={hidecartbtn}>Home</NavLink>
           </Nav.Item>
           <Nav.Item className="mx-4">
-            <NavLink to="/store" id='store'>Store</NavLink>
+            <NavLink to="/store" onClick={showcartbtn}>Store</NavLink>
           </Nav.Item>
           <Nav.Item className="mx-4">
-            <NavLink to="/about" id='about'>About</NavLink>
+            <NavLink to="/about" onClick={hidecartbtn}>About</NavLink>
           </Nav.Item>
         </Nav>
         <span style={{ color: "cyan", position: "absolute", right: "2%" }}>
-          <Button variant="outline-info" onClick={props.onCartclick} className={`d-flex justify-content-around`} style={{width:'150px'}}>
+          <Button variant="outline-info" onClick={props.onCartclick} className={`d-flex justify-content-around ${cartbtn}`} style={{width:'150px'}}>
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
