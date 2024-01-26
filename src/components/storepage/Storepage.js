@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {Route } from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import Topbar from '../navbar/Topbar'
 import Cart from "../cart/Cart";
 import Bottombar from "./Bottombar";
@@ -10,6 +10,7 @@ import Musiclist from './Musiclist';
 import About from './About';
 import ContactUs from './ContactUs';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom';
+import ProductDetail from './ProductDetail';
 
 function Storepage() {
   const [showcart,setshowcart]=useState(false)
@@ -39,6 +40,9 @@ function Storepage() {
         </Route>
         <Route path="/contactus">
             <ContactUs />
+        </Route>
+        <Route path="/product-detail/:productId">
+            <ProductDetail/>
         </Route>
       <Bottombar />
   </ContextProvider>
