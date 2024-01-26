@@ -1,3 +1,6 @@
+.pcard{
+  padding: 10px;
+}
 .imgwrapper{
   overflow:hidden;
  
@@ -7,4 +10,12 @@
 }
 .hoverzoom:hover {
   transform: scale(1.5);
+}
+.cardlink{
+  color:black;
+  text-decoration: none;
+}
+.pcard:hover{
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 195, 255, 0.67);
 }

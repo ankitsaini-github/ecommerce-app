@@ -1,0 +1,18 @@
+.offers{
+  text-align: left;
+}
+.offers span{
+  margin-top: 5px;
+}
+.offers span::after{
+  color: rgb(1, 169, 202);
+  font-weight: 500;
+  content: ' T&C.';
+}
+.productimg{
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+.productimg:hover{
+  transform: scale(1.75);
+}

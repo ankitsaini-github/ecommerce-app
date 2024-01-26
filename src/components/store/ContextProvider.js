@@ -1,8 +1,47 @@
 import React,{useState,useEffect} from 'react'
-import CartContext from './store-context'
+import CartContext,{ProductContext} from './store-context'
 
+
+const products = [
+  {
+    title: "Colors",
+
+    price: 100,
+
+    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
+    id: "p1",
+  },
+
+  {
+    title: "Black and white Colors",
+
+    price: 50,
+
+    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
+    id: "p2",
+  },
+
+  {
+    title: "Yellow and Black Colors",
+
+    price: 70,
+
+    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
+    id: "p3",
+  },
+
+  {
+    title: "Blue Color",
+
+    price: 100,
+
+    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%204.png",
+    id: "p4",
+  },
+];
 
 function ContextProvider(props) {
+  // const [ProductItems,setProductItems]=useState(products);
   const [cartitems,setcartitems]=useState([]);
   const [carttotal,setcarttotal]=useState(0)
   const [cartcount,setcartcount]=useState(0)
@@ -46,7 +85,7 @@ function ContextProvider(props) {
     const data=await response.json();
     console.log(data);
   }
-  const ctx={
+  const cctx={
     Cartlist:cartitems,
     Carttotalamount:carttotal,
     cartcount:cartcount,
@@ -54,10 +93,15 @@ function ContextProvider(props) {
     removefromcart:removefromcarthandler,
     addContact:addContactHandler,
   }
+  const pctx={
+    Productlist:products
+  }
   return (
-    <CartContext.Provider value={ctx}>
-      {props.children}
-    </CartContext.Provider>
+    <ProductContext.Provider value={pctx}>
+      <CartContext.Provider value={cctx}>
+        {props.children}
+      </CartContext.Provider>
+    </ProductContext.Provider>
   )
 }
 

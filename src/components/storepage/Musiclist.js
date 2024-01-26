@@ -1,49 +1,13 @@
 import React, { useContext } from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
-import CartContext from "../store/store-context";
+import CartContext,{ProductContext} from "../store/store-context";
 import classes from './Musiclist.module.css'
-
-
-const products = [
-  {
-    title: "Colors",
-
-    price: 100,
-
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-    id: 1,
-  },
-
-  {
-    title: "Black and white Colors",
-
-    price: 50,
-
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-    id: 2,
-  },
-
-  {
-    title: "Yellow and Black Colors",
-
-    price: 70,
-
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-    id: 3,
-  },
-
-  {
-    title: "Blue Color",
-
-    price: 100,
-
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%204.png",
-    id: 4,
-  },
-];
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 function Musiclist(props) {
   const ctx = useContext(CartContext);
+  const ptx=useContext(ProductContext);
+  console.log('music page')
   const additemhandler = (p) => {
 
     const newitem = {
@@ -55,25 +19,27 @@ function Musiclist(props) {
   const displaycards = () => {
     return (
       <>
-        <Row md={2} className="g-5">
-          {products.map((p, i) => (
-            <Col key={i} className="p-0 justify-content-center d-flex">
-              <Card style={{ width: "18rem" }} className="p-4">
-                <Card.Title className="mb-4">{p.title}</Card.Title>
-                <div className={classes.imgwrapper}>
-                  <Card.Img
-                    variant="top"
-                    src={p.imageUrl}
-                    className={classes.hoverzoom}
-                  />
-                </div>
-                <Card.Body className="d-flex justify-content-between ">
-                  <Card.Text className="mt-2 mb-0">Rs {p.price}</Card.Text>
-                  <Button variant="info" onClick={additemhandler.bind(null, p)}>
-                    Add to cart
-                  </Button>
-                </Card.Body>
-              </Card>
+        <Row md={2} lg={4} className="g-2">
+          {ptx.Productlist.map((p) => (
+            <Col key={p.id} className="p-0 justify-content-center d-flex">
+                <Card style={{ width: "18rem" }} className={classes.pcard}>
+                  <Link to={`/product-detail/${p.id}`} className={classes.cardlink}>
+                    <Card.Title className="mb-4">{p.title}</Card.Title>
+                  <div className={classes.imgwrapper}>
+                    <Card.Img
+                      variant="top"
+                      src={p.imageUrl}
+                      className={classes.hoverzoom}
+                      />
+                  </div>
+                  </Link>
+                  <Card.Body className="d-flex justify-content-between ">
+                    <Card.Text className="mt-1 mb-0 fs-5">Rs. {p.price}</Card.Text>
+                    <Button variant="info" onClick={additemhandler.bind(null, p)}>
+                      Add to cart
+                    </Button>
+                  </Card.Body>
+                </Card>
             </Col>
           ))}
         </Row>
@@ -88,7 +54,7 @@ function Musiclist(props) {
       >
         MUSIC
       </div>
-      <div className="my-4 justify-content-center d-flex p-4 container">
+      <div className="m-4  p-5" >
         {displaycards()}
       </div>
       <Button variant="secondary" onClick={props.onCartclick}>See the Cart</Button>

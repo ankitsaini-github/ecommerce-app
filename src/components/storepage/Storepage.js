@@ -9,7 +9,7 @@ import Home from './Home';
 import Musiclist from './Musiclist';
 import About from './About';
 import ContactUs from './ContactUs';
-import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom';
+import { BrowserRouter, Redirect, Switch } from 'react-router-dom/cjs/react-router-dom';
 import ProductDetail from './ProductDetail';
 
 function Storepage() {
@@ -29,6 +29,10 @@ function Storepage() {
       <Topbar onCartclick={showcarthandler}/>
       {showcart && <Cart onClose={hidecarthandler}/>}
       <Banner />
+      <Switch>
+      <Route path="/" exact>
+            <Redirect to='/home'/>
+        </Route>
         <Route path="/home">
             <Home />
         </Route>
@@ -44,6 +48,7 @@ function Storepage() {
         <Route path="/product-detail/:productId">
             <ProductDetail/>
         </Route>
+      </Switch>
       <Bottombar />
   </ContextProvider>
   </BrowserRouter>

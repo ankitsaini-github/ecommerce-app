@@ -16,7 +16,7 @@ function Topbar(props) {
   return (
     <>
       <Navbar
-        className="justify-content-center p-1 bg-dark d-flex text-white w-auto border-bottom border-info fs-4 fixed-top z-index-2"
+        className="justify-content-center p-2 bg-dark d-flex text-white w-auto border-bottom border-info fs-4 fixed-top z-index-2"
         variant="dark"
       >
         <Nav className={classes.nav}>
