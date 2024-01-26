@@ -21,7 +21,7 @@ function Topbar(props) {
       >
         <Nav className={classes.nav}>
           <Nav.Item className="mx-4">
-            <NavLink to="/" onClick={hidecartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>Home</NavLink>
+            <NavLink to="/home" onClick={hidecartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>Home</NavLink>
           </Nav.Item>
           <Nav.Item className="mx-4">
             <NavLink to="/store" onClick={showcartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>Store</NavLink>

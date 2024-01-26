@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom';
+import {Route } from 'react-router-dom';
 import Topbar from '../navbar/Topbar'
 import Cart from "../cart/Cart";
 import Bottombar from "./Bottombar";
 import Banner from "./Banner";
 import ContextProvider from '../store/ContextProvider';
+import Home from './Home';
+import Musiclist from './Musiclist';
+import About from './About';
+import ContactUs from './ContactUs';
+import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom';
 
 function Storepage() {
   const [showcart,setshowcart]=useState(false)
@@ -18,14 +23,26 @@ function Storepage() {
   const hidecarthandler=()=>{
     setshowcart(false)
   }
-  return (
+  return (<BrowserRouter>
     <ContextProvider>
       <Topbar onCartclick={showcarthandler}/>
       {showcart && <Cart onClose={hidecarthandler}/>}
       <Banner />
-      <Outlet context={[showcarthandler]}/>
+        <Route path="/home">
+            <Home />
+        </Route>
+        <Route path="/store">
+            <Musiclist onCartclick={showcarthandler}/>
+        </Route>
+        <Route path="/about">
+            <About />
+        </Route>
+        <Route path="/contactus">
+            <ContactUs />
+        </Route>
       <Bottombar />
   </ContextProvider>
+  </BrowserRouter>
   )
 }
 
