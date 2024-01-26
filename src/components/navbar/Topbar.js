@@ -29,6 +29,9 @@ function Topbar(props) {
           <Nav.Item className="mx-4">
             <NavLink to="/about" onClick={hidecartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>About</NavLink>
           </Nav.Item>
+          <Nav.Item className="mx-4">
+            <NavLink to="/contactus" onClick={hidecartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>Contact Us</NavLink>
+          </Nav.Item>
         </Nav>
         <span style={{ color: "cyan", position: "absolute", right: "2%" }}>
           <Button variant="outline-info" onClick={props.onCartclick} className={`d-flex justify-content-around ${cartbtn}`} style={{width:'150px'}}>

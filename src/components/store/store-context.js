@@ -6,6 +6,7 @@ const CartContext = React.createContext({
   cartcount:0,
   addtocart:()=>{},
   removefromcart:()=>{},
+  addContact:()=>{},
 })
 
 export default CartContext

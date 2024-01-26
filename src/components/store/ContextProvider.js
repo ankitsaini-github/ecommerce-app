@@ -35,12 +35,24 @@ function ContextProvider(props) {
     const newarr=cartitems.filter((item)=>item.id!==removeid)
     setcartitems(newarr)
   }
+  const addContactHandler=async (user)=>{
+    const response = await fetch('https://react-http-2265-default-rtdb.asia-southeast1.firebasedatabase.app/contactus.json',{
+      method:'POST',
+      body:JSON.stringify(user),
+      headers:{
+        'Content-Type':'application/json'
+      }
+    })
+    const data=await response.json();
+    console.log(data);
+  }
   const ctx={
     Cartlist:cartitems,
     Carttotalamount:carttotal,
     cartcount:cartcount,
     addtocart:addtocarthandler,
     removefromcart:removefromcarthandler,
+    addContact:addContactHandler,
   }
   return (
     <CartContext.Provider value={ctx}>
