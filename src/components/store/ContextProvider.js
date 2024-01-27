@@ -45,17 +45,40 @@ function ContextProvider(props) {
   // const [ProductItems,setProductItems]=useState(products);
   const initialToken=localStorage.getItem('token');
   const [token, setToken] = useState(initialToken);
+  const [useremail,setuseremail]=useState('')
   const userIsLoggedIn = !!token;
   const [cartitems,setcartitems]=useState([]);
   const [carttotal,setcarttotal]=useState(0)
   const [cartcount,setcartcount]=useState(0)
   const history=useHistory()
 
+  const uploadCartItem=async (item)=>{
+    const apiKey = '4530ecd6c8f64fd08808790f6f3069fd';
+    const userKey= useremail.replace('@','').replace('.','');
+    if(userIsLoggedIn){
+      try{
+
+        const res = await fetch(`https://crudcrud.com/api/${apiKey}/cart${userKey}`,{
+          method:'POST',
+          body: JSON.stringify(item),
+          headers:{
+            'Content-type':'application/json',
+          },
+        })
+        const data=await res.json();
+        console.log(data);
+      }catch(err){
+        console.log(err)
+      }
+      }
+  }
+
   useEffect(()=>{
     const totalamount=cartitems.reduce((acc,cur)=>acc+(cur.price*cur.quantity),0)
     const totalcount=cartitems.reduce((acc,cur)=>acc+(cur.quantity),0)
     setcartcount(totalcount)
     setcarttotal(totalamount)
+
   },[cartitems])
 
   const addtocarthandler=(newitem)=>{
@@ -75,6 +98,7 @@ function ContextProvider(props) {
     else{
       updateditems=cartitems.concat(newitem)
     }
+    uploadCartItem(newitem);
     setcartitems(updateditems);
   }
 
@@ -108,8 +132,9 @@ function ContextProvider(props) {
     Productlist:products
   }
 
-  const loginHandler=(token)=>{
+  const loginHandler=(token,email)=>{
     setToken(token);
+    setuseremail(email);
     localStorage.setItem('token', token);
     history.replace('/store')
   }

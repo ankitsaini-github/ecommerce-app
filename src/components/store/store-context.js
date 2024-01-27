@@ -7,7 +7,7 @@ export const ProductContext=React.createContext({
 export const AuthContext=React.createContext({
   token:'',
   isLoggedIn: false,
-  login:(token)=>{},
+  login:(token,email)=>{},
   logout:()=>{},
 })
 

@@ -52,7 +52,7 @@ function Auth() {
         })
       }
     }).then(data=>{
-      authCtx.login(data.idToken);
+      authCtx.login(data.idToken,enteredEmail);
       window.alert('Login Success !!')
     }).catch(err=>{
       alert(err.message)
