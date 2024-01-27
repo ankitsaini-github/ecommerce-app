@@ -44,7 +44,7 @@ function Cart(props) {
   const ctx=useContext(CartContext)
   return (
     <Card
-      className="mt-2 h-75 z-2 p-3 overflow-auto "
+      className="mt-2 h-75 z-2 p-3 overflow-auto shadow-lg"
       style={{ position: "absolute", right: "10px",top:'70px', width: "500px" }}
     >
       <Button

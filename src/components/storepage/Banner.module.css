@@ -1,0 +1,8 @@
+.banner{
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.774)), url("https://prasadyash2411.github.io/ecom-website/img/Album%201.png");
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}

@@ -38,7 +38,7 @@ function ContactUs() {
         <Form.Control type='tel' placeholder='Phone no.'/>
       </Form.Group>
       <Form.Group className="mt-5">
-        <Button type="submit">CONTACT US</Button>
+        <Button type="submit" variant='info text-white fw-bold shadow-sm' size='lg'>CONTACT US</Button>
       </Form.Group>
     </Form>
     </Container>

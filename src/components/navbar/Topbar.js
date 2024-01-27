@@ -1,18 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import CartContext from "../store/store-context";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import classes from './Topbar.module.css'
 
 function Topbar(props) {
   const ctx=useContext(CartContext)
-  const [cartbtn,setcartbtn]=useState('')
-  const showcartbtn=()=>{
-    setcartbtn('')
-  }
-  const hidecartbtn=()=>{
-    setcartbtn('d-none')
-  }
+  const location=useLocation()
+  const cartbtn=location.pathname==='/store'?'':'d-none';
+  console.log(location)
+
   return (
     <>
       <Navbar
@@ -21,16 +18,16 @@ function Topbar(props) {
       >
         <Nav className={classes.nav}>
           <Nav.Item className="mx-4">
-            <NavLink to="/home" onClick={hidecartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>Home</NavLink>
+            <NavLink to="/home" activeClassName={classes.active}>Home</NavLink>
           </Nav.Item>
           <Nav.Item className="mx-4">
-            <NavLink to="/store" onClick={showcartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>Store</NavLink>
+            <NavLink to="/store" activeClassName={classes.active}>Store</NavLink>
           </Nav.Item>
           <Nav.Item className="mx-4">
-            <NavLink to="/about" onClick={hidecartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>About</NavLink>
+            <NavLink to="/about" activeClassName={classes.active}>About</NavLink>
           </Nav.Item>
           <Nav.Item className="mx-4">
-            <NavLink to="/contactus" onClick={hidecartbtn} className={({isActive})=>(isActive?classes.active:undefined)}>Contact Us</NavLink>
+            <NavLink to="/contactus" activeClassName={classes.active}>Contact Us</NavLink>
           </Nav.Item>
         </Nav>
         <span style={{ color: "cyan", position: "absolute", right: "2%" }}>
