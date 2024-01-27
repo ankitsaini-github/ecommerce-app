@@ -2,12 +2,10 @@ import React, { useContext, useRef, useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import classes from './Auth.module.css';
 import { AuthContext } from '../store/store-context';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function Auth() {
   const userpassword=useRef(null)
   const useremail=useRef(null)
-  const history=useHistory();
   const [isLogin,setisLogin]=useState(true)
   const [isloading,setisloading]=useState(false)
   const authCtx=useContext(AuthContext)
@@ -55,7 +53,7 @@ function Auth() {
       }
     }).then(data=>{
       authCtx.login(data.idToken);
-      history.replace('/store')
+      window.alert('Login Success !!')
     }).catch(err=>{
       alert(err.message)
     })
@@ -72,7 +70,7 @@ function Auth() {
         <Form className='m-auto border text-start p-5 shadow rounded-3 fs-5' onSubmit={submithandler} style={{maxWidth:'600px'}}>
           <Form.Group className="mb-3" controlId="useremail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" ref={useremail} required/>
+            <Form.Control type="email" placeholder="Enter email" ref={useremail} required autoComplete=''/>
             <Form.Text className="text-muted fs-6">
               We'll never share your email with anyone else.
             </Form.Text>
@@ -80,7 +78,7 @@ function Auth() {
 
           <Form.Group className="mb-3" controlId="userpassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" ref={userpassword} required/>
+            <Form.Control type="password" placeholder="Password" ref={userpassword} required autoComplete=''/>
           </Form.Group>
 
           {!isloading? <>

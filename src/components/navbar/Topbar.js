@@ -17,7 +17,6 @@ function Topbar(props) {
   const logoutpage=()=>{
     if(window.confirm('Want to LOGOUT ?')){
       atx.logout();
-      history.replace('/auth')
     }
   }
   return (

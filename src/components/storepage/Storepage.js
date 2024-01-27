@@ -4,12 +4,11 @@ import Topbar from '../navbar/Topbar'
 import Cart from "../cart/Cart";
 import Bottombar from "./Bottombar";
 import Banner from "./Banner";
-import ContextProvider from '../store/ContextProvider';
 import Home from './Home';
 import Musiclist from './Musiclist';
 import About from './About';
 import ContactUs from './ContactUs';
-import { BrowserRouter, Redirect, Switch } from 'react-router-dom/cjs/react-router-dom';
+import { Redirect, Switch } from 'react-router-dom/cjs/react-router-dom';
 import ProductDetail from './ProductDetail';
 import Auth from './Auth';
 import { AuthContext } from '../store/store-context';
@@ -29,8 +28,8 @@ function Storepage() {
   const hidecarthandler=()=>{
     setshowcart(false)
   }
-  return (<BrowserRouter>
-    <ContextProvider>
+  return (
+    <>
       <Topbar onCartclick={showcarthandler}/>
       {showcart && <Cart onClose={hidecarthandler}/>}
       <Banner />
@@ -41,11 +40,12 @@ function Storepage() {
         <Route path="/home">
             <Home />
         </Route>
-        <Route path="/auth">
+        {!atx.isLoggedIn && <Route path="/auth">
             <Auth />
-        </Route>
+        </Route>}
         <Route path="/store">
-            <Musiclist onCartclick={showcarthandler}/>
+            {atx.isLoggedIn && <Musiclist onCartclick={showcarthandler}/>}
+            {!atx.isLoggedIn && <Redirect to='/auth' />}
         </Route>
         <Route path="/about">
             <About />
@@ -58,8 +58,8 @@ function Storepage() {
         </Route>
       </Switch>
       <Bottombar />
-  </ContextProvider>
-  </BrowserRouter>
+    </>
+
   )
 }
 

@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import CartContext,{ProductContext,AuthContext} from './store-context'
+import { useHistory } from 'react-router-dom';
 
 
 const products = [
@@ -44,19 +45,18 @@ function ContextProvider(props) {
   // const [ProductItems,setProductItems]=useState(products);
   const initialToken=localStorage.getItem('token');
   const [token, setToken] = useState(initialToken);
-  const [userIsLoggedIn,setuserIsLoggedIn]=useState(null)
-  // userIsLoggedIn = !!token;
+  const userIsLoggedIn = !!token;
   const [cartitems,setcartitems]=useState([]);
   const [carttotal,setcarttotal]=useState(0)
   const [cartcount,setcartcount]=useState(0)
+  const history=useHistory()
 
   useEffect(()=>{
     const totalamount=cartitems.reduce((acc,cur)=>acc+(cur.price*cur.quantity),0)
     const totalcount=cartitems.reduce((acc,cur)=>acc+(cur.quantity),0)
     setcartcount(totalcount)
     setcarttotal(totalamount)
-    setuserIsLoggedIn(!!token)
-  },[cartitems,token])
+  },[cartitems])
 
   const addtocarthandler=(newitem)=>{
     const existingCartItemIndex = cartitems.findIndex(
@@ -111,10 +111,12 @@ function ContextProvider(props) {
   const loginHandler=(token)=>{
     setToken(token);
     localStorage.setItem('token', token);
+    history.replace('/store')
   }
   const logoutHandler=()=>{
     setToken(null);
     localStorage.removeItem('token');
+    history.replace('/auth')
   }
   const AuthCtx={
     token:token,
