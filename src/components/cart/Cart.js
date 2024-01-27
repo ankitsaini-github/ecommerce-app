@@ -32,6 +32,7 @@ const CartItem = (props) => {
               marginRight:'20px',
               borderRadius:'8%'
             }}
+            readOnly
           />
           <Button variant="danger" size="sm" onClick={props.onRemove}>Remove</Button>
         </Col>

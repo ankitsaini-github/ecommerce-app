@@ -1,7 +1,8 @@
-import React,{useState,useEffect} from 'react'
-import CartContext,{ProductContext,AuthContext} from './store-context'
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import CartContext, { ProductContext, AuthContext } from "./store-context";
+import { useHistory } from "react-router-dom";
 
+const apiKey = "e6dd4b23e8784fd881bb9efb455507bf";
 
 const products = [
   {
@@ -43,112 +44,172 @@ const products = [
 
 function ContextProvider(props) {
   // const [ProductItems,setProductItems]=useState(products);
-  const initialToken=localStorage.getItem('token');
+  const initialToken = localStorage.getItem("token");
+  const storedemail = localStorage.getItem("auth-email");
   const [token, setToken] = useState(initialToken);
-  const [useremail,setuseremail]=useState('')
+  const [useremail, setuseremail] = useState(storedemail);
   const userIsLoggedIn = !!token;
-  const [cartitems,setcartitems]=useState([]);
-  const [carttotal,setcarttotal]=useState(0)
-  const [cartcount,setcartcount]=useState(0)
-  const history=useHistory()
+  // const [fullcart,setfullcart]=useState(null);
+  let fullcart;
+  const [cartitems, setcartitems] = useState([]);
+  const [carttotal, setcarttotal] = useState(0);
+  const [cartcount, setcartcount] = useState(0);
+  const history = useHistory();
 
-  const uploadCartItem=async (item)=>{
-    const apiKey = '4530ecd6c8f64fd08808790f6f3069fd';
-    const userKey= useremail.replace('@','').replace('.','');
-    if(userIsLoggedIn){
-      try{
-
-        const res = await fetch(`https://crudcrud.com/api/${apiKey}/cart${userKey}`,{
-          method:'POST',
-          body: JSON.stringify(item),
-          headers:{
-            'Content-type':'application/json',
-          },
-        })
-        const data=await res.json();
-        console.log(data);
-      }catch(err){
-        console.log(err)
+  const getfullcart = async () => {
+    try {
+      const res = await fetch(`https://crudcrud.com/api/${apiKey}/cart`);
+      const data = await res.json();
+      if (data) {
+        console.log("fetched : ", data);
+        fullcart = [...data];
       }
+    } catch (err) {
+      console.log("got error ", err);
+    }
+  };
+
+  const uploadCart = async (updatedcart) => {
+    if (userIsLoggedIn) {
+      const founduser = fullcart.find((user) => user.email === useremail);
+
+      if (founduser) {
+        console.log("user exist");
+        try {
+          const res = await fetch(`https://crudcrud.com/api/${apiKey}/cart/${founduser._id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json; charset=utf-8",
+              },
+              body: JSON.stringify({
+                email: useremail,
+                cart: updatedcart,
+              }),
+            }
+          )
+            if(!res.ok){
+              console.log('got error res.ok ')
+              throw new Error('something went wrong')
+            }
+
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        console.log("not found");
+        try {
+          const res = await fetch(`https://crudcrud.com/api/${apiKey}/cart`, {
+            method: "POST",
+            body: JSON.stringify({
+              email: useremail,
+              cart: updatedcart,
+            }),
+            headers: {
+              "Content-type": "application/json",
+            },
+          });
+          const data = (await res).json();
+          if (data) {
+            console.log("entered new : ", data);
+          }
+        } catch (err) {
+          console.log(err);
+        }
       }
-  }
+    }
+  };
 
-  useEffect(()=>{
-    const totalamount=cartitems.reduce((acc,cur)=>acc+(cur.price*cur.quantity),0)
-    const totalcount=cartitems.reduce((acc,cur)=>acc+(cur.quantity),0)
-    setcartcount(totalcount)
-    setcarttotal(totalamount)
+  useEffect(() => {
+    const totalamount = cartitems.reduce(
+      (acc, cur) => acc + cur.price * cur.quantity,
+      0
+    );
+    const totalcount = cartitems.reduce((acc, cur) => acc + cur.quantity, 0);
+    setcartcount(totalcount);
+    setcarttotal(totalamount);
+  }, [cartitems]);
 
-  },[cartitems])
-
-  const addtocarthandler=(newitem)=>{
+  const addtocarthandler = async (newitem) => {
     const existingCartItemIndex = cartitems.findIndex(
       (item) => item.id === newitem.id
     );
     const existingCartItem = cartitems[existingCartItemIndex];
     let updateditems;
-    if(existingCartItem){
-      const updateditem={
+    if (existingCartItem) {
+      const updateditem = {
         ...existingCartItem,
-        quantity:existingCartItem.quantity+newitem.quantity
-      }
-      updateditems=[...cartitems]
-      updateditems[existingCartItemIndex]=updateditem;
+        quantity: existingCartItem.quantity + newitem.quantity,
+      };
+      updateditems = [...cartitems];
+      updateditems[existingCartItemIndex] = updateditem;
+    } else {
+      updateditems = cartitems.concat(newitem);
     }
-    else{
-      updateditems=cartitems.concat(newitem)
-    }
-    uploadCartItem(newitem);
+    await getfullcart();
+
+    uploadCart(updateditems);
     setcartitems(updateditems);
-  }
+  };
 
-  const removefromcarthandler=(removeid)=>{
-    const newarr=cartitems.filter((item)=>item.id!==removeid)
-    setcartitems(newarr)
-  }
+  const removefromcarthandler = (removeid) => {
+    const newarr = cartitems.filter((item) => item.id !== removeid);
+    setcartitems(newarr);
+  };
 
-  const addContactHandler=async (user)=>{
-    const response = await fetch('https://react-http-2265-default-rtdb.asia-southeast1.firebasedatabase.app/contactus.json',{
-      method:'POST',
-      body:JSON.stringify(user),
-      headers:{
-        'Content-Type':'application/json'
+  const addContactHandler = async (user) => {
+    const response = await fetch(
+      "https://react-http-2265-default-rtdb.asia-southeast1.firebasedatabase.app/contactus.json",
+      {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    })
-    const data=await response.json();
+    );
+    const data = await response.json();
     console.log(data);
-  }
+  };
 
-  const cctx={
-    Cartlist:cartitems,
-    Carttotalamount:carttotal,
-    cartcount:cartcount,
-    addtocart:addtocarthandler,
-    removefromcart:removefromcarthandler,
-    addContact:addContactHandler,
-  }
+  const cctx = {
+    Cartlist: cartitems,
+    Carttotalamount: carttotal,
+    cartcount: cartcount,
+    addtocart: addtocarthandler,
+    removefromcart: removefromcarthandler,
+    addContact: addContactHandler,
+  };
 
-  const pctx={
-    Productlist:products
-  }
+  const pctx = {
+    Productlist: products,
+  };
 
-  const loginHandler=(token,email)=>{
+  const loginHandler = (token, email) => {
+    getfullcart().then(()=>{
+      const user=fullcart.find((user)=>user.email===email)
+      if(user)
+      setcartitems(user.cart)
+    })
     setToken(token);
     setuseremail(email);
-    localStorage.setItem('token', token);
-    history.replace('/store')
-  }
-  const logoutHandler=()=>{
+    localStorage.setItem("auth-email", email);
+    localStorage.setItem("token", token);
+    history.replace("/store");
+
+  };
+  const logoutHandler = () => {
     setToken(null);
-    localStorage.removeItem('token');
-    history.replace('/auth')
-  }
-  const AuthCtx={
-    token:token,
+    localStorage.removeItem("token");
+    localStorage.removeItem("auth-email");
+    history.replace("/auth");
+  };
+  const AuthCtx = {
+    token: token,
     isLoggedIn: userIsLoggedIn,
-    login:loginHandler,
-    logout:logoutHandler,
-  }
+    login: loginHandler,
+    logout: logoutHandler,
+  };
   return (
     <AuthContext.Provider value={AuthCtx}>
       <ProductContext.Provider value={pctx}>
@@ -157,7 +218,7 @@ function ContextProvider(props) {
         </CartContext.Provider>
       </ProductContext.Provider>
     </AuthContext.Provider>
-  )
+  );
 }
 
-export default ContextProvider
+export default ContextProvider;
