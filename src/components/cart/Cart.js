@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Button, Card, Col, Image, Row } from "react-bootstrap";
-import CartContext from "../store/store-context";
+import CartContext, { AuthContext } from "../store/store-context";
 
 const CartItem = (props) => {
   return (
@@ -42,6 +42,7 @@ const CartItem = (props) => {
 
 function Cart(props) {
   const ctx=useContext(CartContext)
+  const atx=useContext(AuthContext)
   return (
     <Card
       className="mt-2 h-75 z-2 p-3 overflow-auto shadow-lg"
@@ -77,7 +78,7 @@ function Cart(props) {
           <span className="fw-bold fs-5" style={{marginRight:'10px'}}>Total </span>
           <span className="fs-5">Rs {ctx.Carttotalamount}</span>
         </div>
-        <Button variant="info" size="lg" className="text-white fw-bolder fs-5 mt-3">PURCHASE</Button>
+        {atx.isLoggedIn?<Button variant="info" size="lg" className="text-white fw-bolder fs-5 mt-3">PURCHASE</Button>: <p className="fs-5 text-secondary mt-3 border p-2">LOG IN to proceed</p>}
       </Card.Body>
     </Card>
   );

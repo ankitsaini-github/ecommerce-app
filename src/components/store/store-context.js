@@ -4,6 +4,13 @@ export const ProductContext=React.createContext({
   Productlist:[],
 })
 
+export const AuthContext=React.createContext({
+  token:'',
+  isLoggedIn: false,
+  login:(token)=>{},
+  logout:()=>{},
+})
+
 const CartContext = React.createContext({
   Cartlist:[],
   Carttotalamount:0,

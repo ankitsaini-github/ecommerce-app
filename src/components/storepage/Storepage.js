@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
 import {Route} from 'react-router-dom';
 import Topbar from '../navbar/Topbar'
 import Cart from "../cart/Cart";
@@ -11,6 +11,8 @@ import About from './About';
 import ContactUs from './ContactUs';
 import { BrowserRouter, Redirect, Switch } from 'react-router-dom/cjs/react-router-dom';
 import ProductDetail from './ProductDetail';
+import Auth from './Auth';
+
 
 function Storepage() {
   const [showcart,setshowcart]=useState(false)
@@ -35,6 +37,9 @@ function Storepage() {
         </Route>
         <Route path="/home">
             <Home />
+        </Route>
+        <Route path="/auth">
+            <Auth />
         </Route>
         <Route path="/store">
             <Musiclist onCartclick={showcarthandler}/>

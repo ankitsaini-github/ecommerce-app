@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import CartContext,{ProductContext} from './store-context'
+import CartContext,{ProductContext,AuthContext} from './store-context'
 
 
 const products = [
@@ -42,15 +42,20 @@ const products = [
 
 function ContextProvider(props) {
   // const [ProductItems,setProductItems]=useState(products);
+  const initialToken=localStorage.getItem('token');
+  const [token, setToken] = useState(initialToken);
+  const userIsLoggedIn = !!token;
   const [cartitems,setcartitems]=useState([]);
   const [carttotal,setcarttotal]=useState(0)
   const [cartcount,setcartcount]=useState(0)
+
   useEffect(()=>{
     const totalamount=cartitems.reduce((acc,cur)=>acc+(cur.price*cur.quantity),0)
     const totalcount=cartitems.reduce((acc,cur)=>acc+(cur.quantity),0)
     setcartcount(totalcount)
     setcarttotal(totalamount)
   },[cartitems])
+
   const addtocarthandler=(newitem)=>{
     const existingCartItemIndex = cartitems.findIndex(
       (item) => item.id === newitem.id
@@ -70,10 +75,12 @@ function ContextProvider(props) {
     }
     setcartitems(updateditems);
   }
+
   const removefromcarthandler=(removeid)=>{
     const newarr=cartitems.filter((item)=>item.id!==removeid)
     setcartitems(newarr)
   }
+
   const addContactHandler=async (user)=>{
     const response = await fetch('https://react-http-2265-default-rtdb.asia-southeast1.firebasedatabase.app/contactus.json',{
       method:'POST',
@@ -85,6 +92,7 @@ function ContextProvider(props) {
     const data=await response.json();
     console.log(data);
   }
+
   const cctx={
     Cartlist:cartitems,
     Carttotalamount:carttotal,
@@ -93,15 +101,33 @@ function ContextProvider(props) {
     removefromcart:removefromcarthandler,
     addContact:addContactHandler,
   }
+
   const pctx={
     Productlist:products
   }
+
+  const loginHandler=(token)=>{
+    setToken(token);
+    localStorage.setItem('token', token);
+  }
+  const logoutHandler=()=>{
+    setToken(null);
+    localStorage.removeItem('token');
+  }
+  const AuthCtx={
+    token:token,
+    isLoggedIn: userIsLoggedIn,
+    login:loginHandler,
+    logout:logoutHandler,
+  }
   return (
-    <ProductContext.Provider value={pctx}>
-      <CartContext.Provider value={cctx}>
-        {props.children}
-      </CartContext.Provider>
-    </ProductContext.Provider>
+    <AuthContext.Provider value={AuthCtx}>
+      <ProductContext.Provider value={pctx}>
+        <CartContext.Provider value={cctx}>
+          {props.children}
+        </CartContext.Provider>
+      </ProductContext.Provider>
+    </AuthContext.Provider>
   )
 }
 

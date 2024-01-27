@@ -1,0 +1,11 @@
+.switchlink{
+  margin-top: 20px;
+  color:rgb(112, 112, 112);
+  
+  cursor: pointer;
+}
+.switchlink:hover{
+  color: rgb(0, 110, 255);
+  transform: translateY(-1px);
+  text-decoration: underline;
+}

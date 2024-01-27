@@ -1,15 +1,25 @@
 import React, { useContext } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
-import CartContext from "../store/store-context";
-import { NavLink, useLocation } from "react-router-dom";
+import CartContext,{AuthContext} from "../store/store-context";
+import { NavLink, useLocation, useHistory } from "react-router-dom";
 import classes from './Topbar.module.css'
 
 function Topbar(props) {
   const ctx=useContext(CartContext)
+  const atx=useContext(AuthContext)
+  const history=useHistory();
   const location=useLocation()
   const cartbtn=location.pathname==='/store'?'':'d-none';
-  console.log(location)
 
+  const loginpage=()=>{
+    history.replace('/auth');
+  }
+  const logoutpage=()=>{
+    if(window.confirm('Want to LOGOUT ?')){
+      atx.logout();
+      history.replace('/auth')
+    }
+  }
   return (
     <>
       <Navbar
@@ -30,8 +40,11 @@ function Topbar(props) {
             <NavLink to="/contactus" activeClassName={classes.active}>Contact Us</NavLink>
           </Nav.Item>
         </Nav>
-        <span style={{ color: "cyan", position: "absolute", right: "2%" }}>
-          <Button variant="outline-info" onClick={props.onCartclick} className={`d-flex justify-content-around ${cartbtn}`} style={{width:'150px'}}>
+          
+        <span className='d-flex' style={{ color: "cyan", position: "absolute", right: "2%" }}>
+          {!atx.isLoggedIn && <Button variant="info" onClick={loginpage}>LOGIN</Button>}
+          {atx.isLoggedIn && <Button variant="info" onClick={logoutpage}>LOGOUT</Button>}
+          <Button variant="outline-info" onClick={props.onCartclick} className={`d-flex ms-5 justify-content-around ${cartbtn}`} style={{width:'150px'}}>
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
