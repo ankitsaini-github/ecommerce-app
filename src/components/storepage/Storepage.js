@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useContext, useState } from 'react'
 import {Route} from 'react-router-dom';
 import Topbar from '../navbar/Topbar'
 import Cart from "../cart/Cart";
@@ -12,10 +12,13 @@ import ContactUs from './ContactUs';
 import { BrowserRouter, Redirect, Switch } from 'react-router-dom/cjs/react-router-dom';
 import ProductDetail from './ProductDetail';
 import Auth from './Auth';
+import { AuthContext } from '../store/store-context';
 
 
 function Storepage() {
   const [showcart,setshowcart]=useState(false)
+  const atx=useContext(AuthContext)
+  
   const showcarthandler=()=>{
     window.scrollTo({
       top: 0,

@@ -43,6 +43,7 @@ const CartItem = (props) => {
 function Cart(props) {
   const ctx=useContext(CartContext)
   const atx=useContext(AuthContext)
+  console.log('cart : ',atx.isLoggedIn)
   return (
     <Card
       className="mt-2 h-75 z-2 p-3 overflow-auto shadow-lg"

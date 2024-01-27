@@ -44,7 +44,8 @@ function ContextProvider(props) {
   // const [ProductItems,setProductItems]=useState(products);
   const initialToken=localStorage.getItem('token');
   const [token, setToken] = useState(initialToken);
-  const userIsLoggedIn = !!token;
+  const [userIsLoggedIn,setuserIsLoggedIn]=useState(null)
+  // userIsLoggedIn = !!token;
   const [cartitems,setcartitems]=useState([]);
   const [carttotal,setcarttotal]=useState(0)
   const [cartcount,setcartcount]=useState(0)
@@ -54,7 +55,8 @@ function ContextProvider(props) {
     const totalcount=cartitems.reduce((acc,cur)=>acc+(cur.quantity),0)
     setcartcount(totalcount)
     setcarttotal(totalamount)
-  },[cartitems])
+    setuserIsLoggedIn(!!token)
+  },[cartitems,token])
 
   const addtocarthandler=(newitem)=>{
     const existingCartItemIndex = cartitems.findIndex(

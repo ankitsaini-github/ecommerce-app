@@ -42,7 +42,6 @@ function Auth() {
     }).then(res=>{
       setisloading(false);
       if(res.ok){
-        window.alert('successfull !!');
         return res.json();
       }else{
         return res.json().then(data=>{
@@ -55,7 +54,6 @@ function Auth() {
         })
       }
     }).then(data=>{
-      console.log(data.idToken);
       authCtx.login(data.idToken);
       history.replace('/store')
     }).catch(err=>{
