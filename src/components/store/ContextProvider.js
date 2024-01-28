@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import CartContext, { ProductContext, AuthContext } from "./store-context";
 import { useHistory } from "react-router-dom";
 
-const apiKey = "e6dd4b23e8784fd881bb9efb455507bf";
+// const apiKey = "772ea35f3d774e3e9055310c2f502e3b";
+const mockApi = 'https://6579c6be1acd268f9afa0463.mockapi.io/api/cart'
 
 const products = [
   {
@@ -58,10 +59,10 @@ function ContextProvider(props) {
 
   const getfullcart = async () => {
     try {
-      const res = await fetch(`https://crudcrud.com/api/${apiKey}/cart`);
+      // const res = await fetch(`https://crudcrud.com/api/${apiKey}/cart`);
+      const res = await fetch(mockApi);
       const data = await res.json();
       if (data) {
-        console.log("fetched : ", data);
         fullcart = [...data];
       }
     } catch (err) {
@@ -74,9 +75,9 @@ function ContextProvider(props) {
       const founduser = fullcart.find((user) => user.email === useremail);
 
       if (founduser) {
-        console.log("user exist");
+        // user present
         try {
-          const res = await fetch(`https://crudcrud.com/api/${apiKey}/cart/${founduser._id}`,
+          const res = await fetch(`${mockApi}/${founduser.id}`,
             {
               method: "PUT",
               headers: {
@@ -89,7 +90,7 @@ function ContextProvider(props) {
             }
           )
             if(!res.ok){
-              console.log('got error res.ok ')
+              console.log('got error')
               throw new Error('something went wrong')
             }
 
@@ -97,9 +98,9 @@ function ContextProvider(props) {
           console.log(err);
         }
       } else {
-        console.log("not found");
+        //if user not present
         try {
-          const res = await fetch(`https://crudcrud.com/api/${apiKey}/cart`, {
+          const res = await fetch(mockApi, {
             method: "POST",
             body: JSON.stringify({
               email: useremail,
@@ -111,7 +112,7 @@ function ContextProvider(props) {
           });
           const data = (await res).json();
           if (data) {
-            console.log("entered new : ", data);
+            console.log("new cart created");
           }
         } catch (err) {
           console.log(err);
@@ -154,6 +155,9 @@ function ContextProvider(props) {
 
   const removefromcarthandler = (removeid) => {
     const newarr = cartitems.filter((item) => item.id !== removeid);
+    getfullcart().then(()=>{
+      uploadCart(newarr);
+    })
     setcartitems(newarr);
   };
 

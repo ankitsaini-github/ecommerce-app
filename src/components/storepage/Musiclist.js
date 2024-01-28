@@ -7,7 +7,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom";
 function Musiclist(props) {
   const ctx = useContext(CartContext);
   const ptx=useContext(ProductContext);
-  console.log('music page')
+
   const additemhandler = (p) => {
 
     const newitem = {
